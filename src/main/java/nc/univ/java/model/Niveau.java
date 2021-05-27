@@ -3,18 +3,17 @@ package nc.univ.java.model;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
-@Table(name = "COURS")
+@Table
 @Getter
-public class Cours {
+public class Niveau {
     @Id @GeneratedValue
-    long id;
+    int id;
 
     @Column
-    Date date_debut;
+    String code;
 
     @Column
-    Date date_fin;
+    String libelle;
 }

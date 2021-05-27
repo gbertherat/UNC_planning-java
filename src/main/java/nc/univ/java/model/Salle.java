@@ -1,12 +1,22 @@
 package nc.univ.java.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Getter;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "SALLE")
+@Getter
 public class Salle {
-    @Id @GeneratedValue long id;
+    @Id @GeneratedValue
+    long id;
+
+    @Column
+    String nom;
+
+    @Column
+    String code;
+
+    @Column
+    int capacite;
 }
