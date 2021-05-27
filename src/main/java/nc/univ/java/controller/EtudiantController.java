@@ -1,4 +1,4 @@
-package nc.univ.java.controller.etudiant;
+package nc.univ.java.controller;
 
 import org.springframework.web.bind.annotation.*;
 
