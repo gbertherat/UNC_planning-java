@@ -1,32 +1,33 @@
 package nc.univ.java.controller;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping(path = "/salle")
 public class SalleController {
     @GetMapping(path = "")
     public String getSalles(){
-        return "salles.html";
+        return "salles";
     }
 
     @PutMapping(path = "")
     public String addSalle(){
-        return "add_salle.html";
+        return "add_salle";
     }
 
     @GetMapping(path = "/{id}")
     public String getSalleById(@PathVariable String id){
-        return "salle_"+ id +".html";
+        return "salle";
     }
 
     @PostMapping(path = "/{id}")
     public String updateSalleById(@PathVariable String id){
-        return "update_salle_"+ id +".html";
+        return "update_salle";
     }
 
     @DeleteMapping(path = "/{id}")
     public String deleteSalleById(@PathVariable String id){
-        return "delete_salle_"+ id +".html";
+        return "delete_salle";
     }
 }
