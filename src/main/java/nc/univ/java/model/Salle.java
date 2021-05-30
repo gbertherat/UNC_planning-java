@@ -5,18 +5,18 @@ import lombok.Getter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "SALLE")
+@Table
 @Getter
 public class Salle {
     @Id @GeneratedValue
     long id;
 
-    @Column
+    @Column(nullable = false)
     String nom;
 
-    @Column
+    @Column(nullable = false)
     String code;
 
-    @Column
+    @Column(nullable = false)
     int capacite;
 }

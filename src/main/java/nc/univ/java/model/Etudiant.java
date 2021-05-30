@@ -5,21 +5,24 @@ import lombok.Getter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ETUDIANT")
+@Table
 @Getter
 public class Etudiant {
     @Id @GeneratedValue
     long id;
 
-    @Column
+    @Column(nullable = false)
     String nom;
 
-    @Column
+    @Column(nullable = false)
     String prenom;
 
-    @Column
+    @Column(nullable = false)
     int age;
 
     @Column
-    String adress;
+    String adresse;
+
+    @ManyToOne
+    Presences presences;
 }

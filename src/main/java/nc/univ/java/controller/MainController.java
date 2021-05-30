@@ -12,7 +12,7 @@ class MainController {
     @Autowired
     private Service service;
 
-    @GetMapping(path = "/")
+    @GetMapping(path = "")
     public String getIndex() {
         return "index.html";
     }

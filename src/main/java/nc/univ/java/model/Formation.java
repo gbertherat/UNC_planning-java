@@ -7,8 +7,9 @@ import javax.persistence.*;
 @Entity
 @Table
 @Getter
-public class Cours {
-    @Id @GeneratedValue
+public class Formation {
+    @Id
+    @GeneratedValue
     long id;
 
     @Column(nullable = false)

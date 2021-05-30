@@ -3,7 +3,7 @@ package nc.univ.java.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/universite/cours")
+@RequestMapping(path = "/cours")
 public class CoursController {
     @GetMapping(path = "")
     public String getCours(){
