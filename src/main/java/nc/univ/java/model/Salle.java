@@ -1,12 +1,13 @@
 package nc.univ.java.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table
-@Getter
+@Getter @Setter
 public class Salle {
     @Id @GeneratedValue
     long id;
@@ -15,7 +16,7 @@ public class Salle {
     String nom;
 
     @Column(nullable = false)
-    String code;
+    char code;
 
     @Column(nullable = false)
     int capacite;

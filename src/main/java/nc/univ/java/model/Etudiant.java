@@ -1,12 +1,13 @@
 package nc.univ.java.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table
-@Getter
+@Getter @Setter
 public class Etudiant {
     @Id @GeneratedValue
     long id;

@@ -4,7 +4,6 @@ import nc.univ.java.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 
@@ -19,12 +18,13 @@ class MainController {
     }
 
     @GetMapping(path = "/test")
-    public void launchTest() throws SQLException {
-        service.printDatabaseDetail();
+    public String launchTest() throws SQLException {
+        service.printDatabaseContent();
+        return "index";
     }
 
     @GetMapping(path = "/error")
-    public String error(){
+    public String error() {
         return "error";
     }
 }
