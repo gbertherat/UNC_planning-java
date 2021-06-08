@@ -201,4 +201,8 @@ public class Service {
     public Optional<Etudiant> getEtudiantById(long id){
         return etuRepo.findById(id);
     }
+
+    public Optional<Niveau> getNiveauOfEtudiant(long id){
+        return nivRepo.getByEtudiantId(id);
+    }
 }

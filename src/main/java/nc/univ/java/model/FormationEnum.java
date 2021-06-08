@@ -1,13 +1,13 @@
 package nc.univ.java.model;
 
 public enum FormationEnum {
-    LICENCE_INFORMATIQUE,
-    LICENCE_SVT,
-    LICENCE_MATH,
-    LICENCE_PHYSIQUE_CHIMIE,
-    LICENCE_DROIT,
-    LICENCE_LETTRES,
-    LICENCE_ANGLAIS,
-    LICENCE_ECO_GESTION,
-    LICENCE_HISTOIRE
+    Licence_Informatique,
+    Licence_Sciences_et_Vie_de_la_Terre,
+    Licence_Mathematiques,
+    Licence_Physique_et_Chimie,
+    Licence_Droit,
+    Licence_Lettres,
+    Licence_Anglais,
+    Licence_Economie_Gestion,
+    Licence_Histoire
 }

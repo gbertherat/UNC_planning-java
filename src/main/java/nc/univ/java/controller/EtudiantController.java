@@ -1,6 +1,7 @@
 package nc.univ.java.controller;
 
 import nc.univ.java.model.Etudiant;
+import nc.univ.java.model.Niveau;
 import nc.univ.java.service.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,11 @@ public class EtudiantController {
     @GetMapping(path = "/{id}")
     public String getEtudiantById(@PathVariable long id, Model model){
         Optional<Etudiant> etudiant = service.getEtudiantById(id);
-        if(etudiant.isPresent()){
+        Optional<Niveau> niveau = service.getNiveauOfEtudiant(id);
+
+        if(etudiant.isPresent() && niveau.isPresent()){
             model.addAttribute("etudiant", etudiant.get());
+            model.addAttribute("niveau", niveau.get());
         } else {
             return "error";
         }
