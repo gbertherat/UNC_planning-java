@@ -115,13 +115,19 @@ public class Service {
 
         Etudiant randEtu = etudiants.get(random.nextInt(etudiants.size()));
         Presence presence = new Presence(seance);
-        if(randEtu.getPresences().stream().noneMatch(pres -> pres.getSeance() == presence.getSeance())){
+        boolean etuDejaPresent =
+                randEtu.getPresences().stream().anyMatch(pres -> pres.getSeance() == presence.getSeance());
+        boolean conflitHeureDebut =
+                randEtu.getPresences().stream().anyMatch(pres -> pres.getSeance().getDatedebut().compareTo(seance.getDatedebut()) * seance.getDatedebut().compareTo(pres.getSeance().getDatefin()) >= 0);
+        boolean conflitHeureFin =
+                randEtu.getPresences().stream().anyMatch(pres -> pres.getSeance().getDatedebut().compareTo(seance.getDatefin()) * seance.getDatefin().compareTo(pres.getSeance().getDatefin()) >= 0);
+
+        //seances.stream().noneMatch(seanceInDb -> seanceInDb.getDatedebut().compareTo(debut) * debut.compareTo(seanceInDb.getDatefin())
+        if(!etuDejaPresent && !conflitHeureDebut && !conflitHeureFin){
             presence.setEtudiant(randEtu);
             randEtu.addPresence(presence);
             presRepo.save(presence);
             etuRepo.save(randEtu);
-        } else {
-            addRandomEtudiantToSeance(seance);
         }
     }
 
@@ -167,20 +173,12 @@ public class Service {
     }
 
     public void printDatabaseContent() {
-        /*
-        etuRepo.findAll().forEach(etudiant -> System.out.println(etudiant.getId() + " " +  etudiant.getNom() + " " + etudiant.getPrenom()));
-
-        seanceRepo.findAllByOrderBySalleId().forEach(
-                seance -> System.out.println(seance.getId() + " "
-                    + seance.getCours().getLibelle() + " : "
-                    + seance.getDatedebut().toString() + " -> "
-                    + seance.getDatefin().toString() + " en "
-                    + seance.getSalle().getNom()));
-                        }
-         */
-
-        presRepo.findAll().forEach(presence -> {
-            System.out.println(presence.getId() + " " + presence.getSeance().getCours().getLibelle() + " en " + presence.getSeance().getSalle().getNom() + " à " + presence.getSeance().getDatedebut());
+        etuRepo.findAll().forEach(etudiant -> {
+            System.out.println("-----------");
+            System.out.println(etudiant.getNom() + " " + etudiant.getPrenom());
+            etudiant.getPresences().forEach(presence -> {
+                System.out.println(presence.getSeance().getCours().getLibelle() + " en " + presence.getSeance().getSalle().getNom() + " à " + presence.getSeance().getDatedebut());
+            });
         });
     }
 }

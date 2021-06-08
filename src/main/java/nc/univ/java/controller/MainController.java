@@ -19,7 +19,6 @@ class MainController {
 
     @GetMapping(path = "/test")
     public String launchTest() throws SQLException {
-        service.printDatabaseDetail();
         service.printDatabaseContent();
         return "index";
     }

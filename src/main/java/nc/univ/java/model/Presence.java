@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"seance_id", "etudiant_id"}))
 @Getter @Setter
 public class Presence implements Serializable {
     @Id
