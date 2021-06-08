@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table
@@ -24,6 +26,14 @@ public class Etudiant {
     @Column
     String adresse;
 
-    @ManyToOne
-    Presences presences;
+    @OneToMany(mappedBy="etudiant", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    Collection<Presence> presences;
+
+    public void addPresence(Presence presence){
+        presences.add(presence);
+    }
+
+    public Etudiant(){
+        presences = new ArrayList<>();
+    }
 }

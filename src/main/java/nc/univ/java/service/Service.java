@@ -33,6 +33,8 @@ public class Service {
     private SalleRepository salleRepo;
     @Autowired
     private SeanceRepository seanceRepo;
+    @Autowired
+    private PresenceRepository presRepo;
 
     private final int numberOfFakeStudents = 50;
     private final int numberOfFakeClass = 10;
@@ -43,20 +45,6 @@ public class Service {
     public void runAfterStartup() {
         createStaticDBData();
         createFakeDBData();
-    }
-
-    public void createStaticDBData() {
-        Arrays.stream(FormationEnum.values()).forEach(libelle -> formRepo.save(new Formation(libelle)));
-        Arrays.stream(CoursEnum.values()).forEach(cours -> coursRepo.save(new Cours(cours.toString())));
-
-        Arrays.stream(SalleEnum.values()).forEach(code ->
-                IntStream.range(1, code.getNombreDeSalle() + 1).forEach(i -> {
-                    Salle salle = new Salle();
-                    salle.setCode(code.toString().charAt(0));
-                    salle.setCapacite(code.getCapacite());
-                    salle.setNom(code.toString().charAt(0) + "" + i);
-                    salleRepo.save(salle);
-                }));
     }
 
     public Etudiant createFakeStudent(){
@@ -107,6 +95,36 @@ public class Service {
         return createFakeClass();
     }
 
+    public void createStaticDBData() {
+        Arrays.stream(FormationEnum.values()).forEach(libelle -> formRepo.save(new Formation(libelle)));
+        Arrays.stream(CoursEnum.values()).forEach(cours -> coursRepo.save(new Cours(cours.toString())));
+
+        Arrays.stream(SalleEnum.values()).forEach(code ->
+                IntStream.range(1, code.getNombreDeSalle() + 1).forEach(i -> {
+                    Salle salle = new Salle();
+                    salle.setCode(code.toString().charAt(0));
+                    salle.setCapacite(code.getCapacite());
+                    salle.setNom(code.toString().charAt(0) + "" + i);
+                    salleRepo.save(salle);
+                }));
+    }
+
+    public void addRandomEtudiantToSeance(Seance seance){
+        List<Etudiant> etudiants = new ArrayList<>();
+        etuRepo.findAll().forEach(etudiants::add);
+
+        Etudiant randEtu = etudiants.get(random.nextInt(etudiants.size()));
+        Presence presence = new Presence(seance);
+        if(randEtu.getPresences().stream().noneMatch(pres -> pres.getSeance() == presence.getSeance())){
+            presence.setEtudiant(randEtu);
+            randEtu.addPresence(presence);
+            presRepo.save(presence);
+            etuRepo.save(randEtu);
+        } else {
+            addRandomEtudiantToSeance(seance);
+        }
+    }
+
     public void createFakeDBData() {
         List<Formation> formations = new ArrayList<>();
         formRepo.findAll().forEach(formations::add);
@@ -122,7 +140,11 @@ public class Service {
         });
 
         IntStream.range(0, numberOfFakeClass).forEach(index -> {
-            seanceRepo.save(createFakeClass());
+            Seance seance = createFakeClass();
+            seanceRepo.save(seance);
+            IntStream.range(0, faker.number().numberBetween(numberOfFakeStudents/3, numberOfFakeStudents/2)).forEach(number -> {
+                addRandomEtudiantToSeance(seance);
+            });
         });
     }
 
@@ -145,6 +167,7 @@ public class Service {
     }
 
     public void printDatabaseContent() {
+        /*
         etuRepo.findAll().forEach(etudiant -> System.out.println(etudiant.getId() + " " +  etudiant.getNom() + " " + etudiant.getPrenom()));
 
         seanceRepo.findAllByOrderBySalleId().forEach(
@@ -153,5 +176,11 @@ public class Service {
                     + seance.getDatedebut().toString() + " -> "
                     + seance.getDatefin().toString() + " en "
                     + seance.getSalle().getNom()));
+                        }
+         */
+
+        presRepo.findAll().forEach(presence -> {
+            System.out.println(presence.getId() + " " + presence.getSeance().getCours().getLibelle() + " en " + presence.getSeance().getSalle().getNom() + " à " + presence.getSeance().getDatedebut());
+        });
     }
 }
