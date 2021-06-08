@@ -1,9 +1,9 @@
 package nc.univ.java.model;
 
 public enum CoursEnum {
-    JAVA,
-    BASE_DE_DONNEES,
-    MATHS,
-    STATISTIQUES,
-    ALGORITHMIE
+    Java,
+    Base_de_Donnes,
+    Mathematiques,
+    Statistiques,
+    Algorithmie
 }

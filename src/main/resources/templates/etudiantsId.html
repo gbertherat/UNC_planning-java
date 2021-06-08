@@ -1,0 +1,15 @@
+<!DOCTYPE_HTML>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{title}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<h1 th:text="Etudiant + ' ' + ${etudiant.nom} + ' ' + ${etudiant.prenom}"></h1>
+<ul>
+    <li th:text="Age + ': ' + ${etudiant.age}"></li>
+    <li th:text="Adresse + ': ' + ${etudiant.adresse}"></li>
+</ul>
+</body>
+</html>

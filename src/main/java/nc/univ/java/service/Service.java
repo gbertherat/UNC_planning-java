@@ -36,7 +36,7 @@ public class Service {
     @Autowired
     private PresenceRepository presRepo;
 
-    private final int numberOfFakeStudents = 50;
+    private final int numberOfFakeStudents = 1000;
     private final int numberOfFakeClass = 10;
     private final Random random = new Random();
     private final Faker faker = new Faker(new Locale("fr"));
@@ -47,6 +47,7 @@ public class Service {
         createFakeDBData();
     }
 
+    /* FAKE DATA GENERATION */
     public Etudiant createFakeStudent(){
         Etudiant etudiant = new Etudiant();
         etudiant.setNom(faker.name().lastName());
@@ -153,6 +154,7 @@ public class Service {
             });
         });
     }
+    /* */
 
     public void printDatabaseDetail() throws SQLException {
         DataSource dataSource = (DataSource) context.getBean("dataSource");
@@ -172,13 +174,31 @@ public class Service {
         }
     }
 
-    public void printDatabaseContent() {
-        etuRepo.findAll().forEach(etudiant -> {
-            System.out.println("-----------");
-            System.out.println(etudiant.getNom() + " " + etudiant.getPrenom());
-            etudiant.getPresences().forEach(presence -> {
-                System.out.println(presence.getSeance().getCours().getLibelle() + " en " + presence.getSeance().getSalle().getNom() + " à " + presence.getSeance().getDatedebut());
-            });
-        });
+    public List<Salle> getAllSalles(){
+        List<Salle> salles = new ArrayList<>();
+        salleRepo.findAll().forEach(salles::add);
+        return salles;
+    }
+
+    public Optional<Salle> getSalleById(long id){
+        return salleRepo.findById(id);
+    }
+
+    public List<Cours> getAllCours(){
+        List<Cours> cours = new ArrayList<>();
+        coursRepo.findAll().forEach(cours::add);
+        return cours;
+    }
+
+    public Optional<Cours> getCoursById(long id){
+        return coursRepo.findById(id);
+    }
+
+    public List<Etudiant> getAllEtudiants(){
+        return new ArrayList<>(etuRepo.findAllByOrderByNom());
+    }
+
+    public Optional<Etudiant> getEtudiantById(long id){
+        return etuRepo.findById(id);
     }
 }

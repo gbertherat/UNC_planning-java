@@ -1,0 +1,12 @@
+<!DOCTYPE_HTML>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{title}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<h1 th:text="Salle + ' ' + ${salle.nom}"></h1>
+<p th:text="Capacité + ': ' + ${salle.capacite}"></p>
+</body>
+</html>

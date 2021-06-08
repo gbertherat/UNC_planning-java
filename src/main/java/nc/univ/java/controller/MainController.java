@@ -9,17 +9,8 @@ import java.sql.SQLException;
 
 @Controller
 class MainController {
-    @Autowired
-    private Service service;
-
     @GetMapping(path = "")
     public String getIndex() {
-        return "index";
-    }
-
-    @GetMapping(path = "/test")
-    public String launchTest() throws SQLException {
-        service.printDatabaseContent();
         return "index";
     }
 

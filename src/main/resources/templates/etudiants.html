@@ -1,0 +1,16 @@
+<!DOCTYPE_HTML>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{title}"></title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<h2>Liste des étudiants</h2>
+<ul>
+  <li th:each="etudiant : ${etudiants}">
+    <a th:text="${etudiant.nom} + ' ' + ${etudiant.prenom}" th:href="@{~/etudiants/{id}(id=${etudiant.id})}"></a>
+  </li>
+</ul>
+</body>
+</html>

@@ -1,13 +1,25 @@
 package nc.univ.java.controller;
 
+import nc.univ.java.model.Etudiant;
+import nc.univ.java.service.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @Controller
-@RequestMapping(path = "/etudiant")
+@RequestMapping(path = "/etudiants")
 public class EtudiantController {
+    @Autowired
+    private Service service;
+
     @GetMapping(path = "")
-    public String getEtudiants(){
+    public String getEtudiants(Model model){
+        List<Etudiant> etudiants = service.getAllEtudiants();
+        model.addAttribute("etudiants", etudiants);
         return "etudiants";
     }
 
@@ -17,8 +29,14 @@ public class EtudiantController {
     }
 
     @GetMapping(path = "/{id}")
-    public String getEtudiantById(@PathVariable String id){
-        return "etudiant";
+    public String getEtudiantById(@PathVariable long id, Model model){
+        Optional<Etudiant> etudiant = service.getEtudiantById(id);
+        if(etudiant.isPresent()){
+            model.addAttribute("etudiant", etudiant.get());
+        } else {
+            return "error";
+        }
+        return "etudiantsId";
     }
 
     @PostMapping(path = "/{id}")
