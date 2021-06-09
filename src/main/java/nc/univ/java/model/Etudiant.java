@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -27,13 +29,13 @@ public class Etudiant {
     String adresse;
 
     @OneToMany(mappedBy="etudiant", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    Collection<Presence> presences;
+    Set<Presence> presences;
 
     public void addPresence(Presence presence){
         presences.add(presence);
     }
 
     public Etudiant(){
-        presences = new ArrayList<>();
+        presences = new HashSet<>();
     }
 }

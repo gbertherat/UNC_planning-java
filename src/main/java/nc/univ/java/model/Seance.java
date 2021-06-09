@@ -5,9 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"id","salle_id"}))
@@ -30,18 +28,18 @@ public class Seance implements Serializable {
     Date datefin;
 
     @OneToMany(mappedBy = "seance")
-    Collection<Presence> presences;
+    Set<Presence> presences;
 
     public void addPresence(Presence presence){
         this.presences.add(presence);
     }
 
     public Seance(){
-        this.presences = new ArrayList<>();
+        this.presences = new HashSet<>();
     }
 
     public Seance(Salle salle){
-        this.presences = new ArrayList<>();
+        this.presences = new HashSet<>();
         this.salle = salle;
     }
 }

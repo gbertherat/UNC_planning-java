@@ -97,8 +97,30 @@ public class Service {
     }
 
     public void createStaticDBData() {
-        Arrays.stream(FormationEnum.values()).forEach(libelle -> formRepo.save(new Formation(libelle)));
-        Arrays.stream(CoursEnum.values()).forEach(cours -> coursRepo.save(new Cours(cours.toString())));
+        Map<FormationEnum, List<Cours>> mapCours = new HashMap<>();
+        Arrays.stream(FormationEnum.values()).forEach(formE -> mapCours.put(formE, new ArrayList<>()));
+
+        Arrays.stream(CoursEnum.values()).forEach(cours -> {
+            Cours c = new Cours(cours.toString());
+            cours.getFormationsForCours().forEach(formation -> {
+                mapCours.get(formation).add(c);
+            });
+        });
+
+        Arrays.stream(FormationEnum.values()).forEach(libelle -> {
+            Formation formation = new Formation(libelle);
+            mapCours.get(libelle).forEach(cours -> {
+                formation.addCours(cours);
+                cours.addFormation(formation);
+            });
+            formRepo.save(formation);
+        });
+
+        mapCours.keySet().forEach(key -> mapCours.get(key).forEach(cours -> {
+            if(!coursRepo.findById(cours.getId()).isPresent()) {
+                coursRepo.save(cours);
+            }
+        }));
 
         Arrays.stream(SalleEnum.values()).forEach(code ->
                 IntStream.range(1, code.getNombreDeSalle() + 1).forEach(i -> {

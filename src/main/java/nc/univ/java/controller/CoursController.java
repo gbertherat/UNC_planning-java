@@ -31,6 +31,7 @@ public class CoursController {
     @GetMapping(path = "/{id}")
     public String getCoursById(@PathVariable long id, Model model){
         Optional<Cours> cours = service.getCoursById(id);
+
         if(cours.isPresent()){
             model.addAttribute("cours", cours.get());
         } else {

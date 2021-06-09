@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public class EtudiantController {
     private Service service;
 
     @GetMapping(path = "")
-    public String getEtudiants(Model model){
+    public String getEtudiants(Model model) throws SQLException {
         List<Etudiant> etudiants = service.getAllEtudiants();
         model.addAttribute("etudiants", etudiants);
         return "etudiants";
