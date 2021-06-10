@@ -33,11 +33,9 @@ public class EtudiantController {
     @GetMapping(path = "/{id}")
     public String getEtudiantById(@PathVariable long id, Model model){
         Optional<Etudiant> etudiant = service.getEtudiantById(id);
-        Optional<Niveau> niveau = service.getNiveauOfEtudiant(id);
 
-        if(etudiant.isPresent() && niveau.isPresent()){
+        if(etudiant.isPresent()){
             model.addAttribute("etudiant", etudiant.get());
-            model.addAttribute("niveau", niveau.get());
         } else {
             return "error";
         }

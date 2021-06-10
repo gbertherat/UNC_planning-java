@@ -138,6 +138,9 @@ public class Service {
 
         Etudiant randEtu = etudiants.get(random.nextInt(etudiants.size()));
         Presence presence = new Presence(seance);
+
+        boolean formationCoursEqEtu =
+                seance.getCours().getFormations().stream().anyMatch(formation -> randEtu.getNiveau().getFormation().getLibelle().equals(formation.getLibelle()));
         boolean etuDejaPresent =
                 randEtu.getPresences().stream().anyMatch(pres -> pres.getSeance() == presence.getSeance());
         boolean conflitHeureDebut =
@@ -145,8 +148,7 @@ public class Service {
         boolean conflitHeureFin =
                 randEtu.getPresences().stream().anyMatch(pres -> pres.getSeance().getDatedebut().compareTo(seance.getDatefin()) * seance.getDatefin().compareTo(pres.getSeance().getDatefin()) >= 0);
 
-        //seances.stream().noneMatch(seanceInDb -> seanceInDb.getDatedebut().compareTo(debut) * debut.compareTo(seanceInDb.getDatefin())
-        if(!etuDejaPresent && !conflitHeureDebut && !conflitHeureFin){
+        if(formationCoursEqEtu && !etuDejaPresent && !conflitHeureDebut && !conflitHeureFin){
             presence.setEtudiant(randEtu);
             randEtu.addPresence(presence);
             presRepo.save(presence);
@@ -160,11 +162,16 @@ public class Service {
 
         IntStream.range(0, numberOfFakeStudents).forEach(index -> {
             Etudiant etudiant = createFakeStudent();
-            etuRepo.save(etudiant);
 
-            Niveau niveau = new Niveau(etudiant);
+            Niveau niveau = new Niveau();
             niveau.setFormation(formations.get(random.nextInt(formations.size())));
             niveau.setAnnee(faker.number().numberBetween(1, 3));
+            nivRepo.save(niveau);
+
+            etudiant.setNiveau(niveau);
+            etuRepo.save(etudiant);
+
+            niveau.setEtudiant(etudiant);
             nivRepo.save(niveau);
         });
 
@@ -226,5 +233,11 @@ public class Service {
 
     public Optional<Niveau> getNiveauOfEtudiant(long id){
         return nivRepo.getByEtudiantId(id);
+    }
+
+    public List<Presence> getAllPresences(){
+        List<Presence> presences = new ArrayList<>();
+        presRepo.findAll().forEach(presences::add);
+        return presences;
     }
 }

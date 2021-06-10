@@ -28,6 +28,9 @@ public class Etudiant {
     @Column
     String adresse;
 
+    @OneToOne
+    Niveau niveau;
+
     @OneToMany(mappedBy="etudiant", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     Set<Presence> presences;
 

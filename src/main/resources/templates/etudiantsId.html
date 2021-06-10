@@ -10,8 +10,8 @@
 <ul>
     <li th:text="Age + ': ' + ${etudiant.age}"></li>
     <li th:text="Adresse + ': ' + ${etudiant.adresse}"></li>
-    <li th:text="Année + ': ' + ${niveau.annee}"></li>
-    <li th:text="Formation + ': ' + ${niveau.formation.libelle.replace('_', ' ')}"></li>
+    <li th:text="Année + ': ' + ${etudiant.niveau.annee}"></li>
+    <li th:text="Formation + ': ' + ${etudiant.niveau.formation.libelle.replace('_', ' ')}"></li>
 </ul>
 </body>
 </html>

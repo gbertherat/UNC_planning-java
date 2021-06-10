@@ -20,7 +20,7 @@ public class Cours {
     @Column(nullable = false)
     String libelle;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     Set<Formation> formations;
 
     public void addFormation(Formation formation){
